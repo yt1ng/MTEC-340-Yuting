@@ -24,8 +24,9 @@ public class Brick : MonoBehaviour
         this.score = FindObjectOfType<Score>();
     }
 
-    private void Hit()
+    private void Hit(Ball ball)
     { 
+        ball.hitBricks();
         if (this.unbreakable) {
             return;
         }
@@ -43,7 +44,7 @@ public class Brick : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.name == "Ball") {
-            Hit();
+            Hit(collision.gameObject.GetComponent<Ball>());
         }
     }
 
