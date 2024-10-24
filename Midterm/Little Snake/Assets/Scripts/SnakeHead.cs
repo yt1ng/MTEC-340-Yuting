@@ -11,7 +11,7 @@ public class SnakeHead : MonoBehaviour
 
     List<Transform> bodyList = new List<Transform>();
     
-    public float velocity = 0.35f;
+    public float velocity = 0.4f;
     public int step = 50;
     private int x;
     private int y;
@@ -23,8 +23,11 @@ public class SnakeHead : MonoBehaviour
 
     public GameObject effect;
     public GameObject snakeBodyPre;
-    public AudioClip eatClip;
+    public AudioClip[] eatClip;
     public AudioClip dieClip;
+    public AudioClip levelupClip;
+    
+    public Sprite head;
     
     private bool isDie = false;
 
@@ -33,7 +36,7 @@ public class SnakeHead : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(PlayerPrefs.GetString("snakeh","sh01"));
+        gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(PlayerPrefs.GetString("F","sh01"));
         bodysprites[0] = Resources.Load<Sprite>(PlayerPrefs.GetString("snakeb01", "sb0102"));
         bodysprites[1] = Resources.Load<Sprite>(PlayerPrefs.GetString("snakeb02", "sb0101"));
 
@@ -42,21 +45,30 @@ public class SnakeHead : MonoBehaviour
         InvokeRepeating("Move", 1, 0.3f);
         x = 0;y = step;
         lastPosition.Add(transform.localPosition);
+        
+        InvokeRepeating("Move",1,velocity);
     }
 
     // Update is called once per frame
+    
+    
     void Update()
     {
       
         if (Input.GetKeyDown(KeyCode.Space) && MainUI.Instance.isPause == false)
         {
-            CancelInvoke();
-            InvokeRepeating("Move",1,velocity - 0.2f);
+                velocity -= 0.1f;
+                if (velocity <= 0.0f)
+                {
+                    velocity = 0.4f;
+                }
+                CancelInvoke();
+                InvokeRepeating("Move",0,velocity);
+            
         }
         if (Input.GetKeyUp(KeyCode.Space) && MainUI.Instance.isPause == false)
         {
-            CancelInvoke();
-            InvokeRepeating("Move",1,velocity - 0.2f);
+            
         }
         if (Input.GetKey(KeyCode.W) && y != -step && MainUI.Instance.isPause == false)
         {
@@ -182,12 +194,12 @@ public class SnakeHead : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         
-        print(MainUI.Instance);
-        
-        
         if (collision.tag == ("Food"))
         {
-            AudioSource.PlayClipAtPoint(eatClip, Vector3.zero);
+            
+            int v = Random.Range(0, eatClip.Length);
+            
+            AudioSource.PlayClipAtPoint(eatClip[v], Vector3.zero);
             Destroy(collision.gameObject);
 
             
@@ -196,7 +208,9 @@ public class SnakeHead : MonoBehaviour
             FoodSpawner.Instance.MakeFood((Random.Range(0, 100) < 20) ? true : false);
         }else if (collision.tag == "Reward")
         {
-            AudioSource.PlayClipAtPoint(eatClip, Vector3.zero);
+            
+            int v = Random.Range(0, eatClip.Length);
+            AudioSource.PlayClipAtPoint(eatClip[v], Vector3.zero);
             Destroy(collision.gameObject);
             MainUI.Instance.UpdateUI(Random.Range(10,20)*10);
             Grow();
@@ -205,30 +219,12 @@ public class SnakeHead : MonoBehaviour
         {
             Die();
         }
-        else
+        else if (collision.tag == "board")
         {
-            if (MainUI.Instance.isBorder)
-            {
-                Die();
-            }
-            else
-            {
-                switch (collision.gameObject.name)
-                {
-                    case "Up":
-                        transform.localPosition = new Vector3(gameObject.transform.localPosition.x, -gameObject.transform.localPosition.y + 25, gameObject.transform.localPosition.z);
-                        break;
-                    case "Down":
-                        transform.localPosition = new Vector3(gameObject.transform.localPosition.x, -gameObject.transform.localPosition.y - 25, gameObject.transform.localPosition.z);
-                        break;
-                    case "Left":
-                        transform.localPosition = new Vector3(-gameObject.transform.localPosition.x + 300 - 25, gameObject.transform.localPosition.y, gameObject.transform.localPosition.z);
-                        break;
-                    case "Right":
-                        transform.localPosition = new Vector3(-gameObject.transform.localPosition.x + 300 + 25, gameObject.transform.localPosition.y, gameObject.transform.localPosition.z);
-                        break;
-                }
-            }
+            Die();
         }
+
+
+
     }
 }

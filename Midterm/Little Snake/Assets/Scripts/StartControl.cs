@@ -6,12 +6,11 @@ using UnityEngine.UI;
 
 public class StartControl : MonoBehaviour
 {
-    public Text lastText;
-    public Text bestText;
+    public TextMeshProUGUI  lastText;
+    public TextMeshProUGUI bestText;
 
     public Button startButton;
-
-    public Toggle free;
+    
     public Toggle border;
     public Toggle blue;
     public Toggle yellow;
@@ -20,6 +19,9 @@ public class StartControl : MonoBehaviour
     void Start()
     {
         startButton.onClick.AddListener(StartGame);
+        blue.onValueChanged.AddListener(BlueS);
+        yellow.onValueChanged.AddListener(YellowS); 
+        
         ShowText();
 
         if (PlayerPrefs.GetString("snakeh", "sh01") == "sh01")
@@ -39,7 +41,6 @@ public class StartControl : MonoBehaviour
 
         if (PlayerPrefs.GetInt("Mode", 0) == 0)
         {
-            free.isOn = true;
             PlayerPrefs.SetInt("Mode", 0);
         }
         else
