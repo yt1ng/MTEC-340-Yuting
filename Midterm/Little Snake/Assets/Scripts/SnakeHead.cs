@@ -21,7 +21,7 @@ public class SnakeHead : MonoBehaviour
     
     public Sprite[] bodysprites = new Sprite[2];
 
-    public GameObject effect;
+    public GameObject dieEffect;
     public GameObject snakeBodyPre;
     public AudioClip[] eatClip;
     public AudioClip dieClip;
@@ -173,7 +173,7 @@ public class SnakeHead : MonoBehaviour
         CancelInvoke();
         isDie = true;
         Debug.Log(isDie);
-        Instantiate(effect);
+        Instantiate(dieEffect);
         AudioSource.PlayClipAtPoint(dieClip, Vector3.zero);
         StartCoroutine(GameOver(1.5f));
         PlayerPrefs.SetInt("lasts", MainUI.Instance.score);

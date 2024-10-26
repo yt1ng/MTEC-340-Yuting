@@ -22,7 +22,7 @@ public class StartControl : MonoBehaviour
         blue.onValueChanged.AddListener(BlueS);
         yellow.onValueChanged.AddListener(YellowS); 
         
-        ShowText();
+        Awake();
 
         if (PlayerPrefs.GetString("snakeh", "sh01") == "sh01")
         {
@@ -56,10 +56,10 @@ public class StartControl : MonoBehaviour
         
     }
 
-    public void ShowText()
+    public void Awake()
     {
-        lastText.text= "Last:Lengh"+ PlayerPrefs.GetInt("last1",0) + ",Score" + PlayerPrefs.GetInt("lastl",0);
-        bestText.text = "Best:Lengh" + PlayerPrefs.GetInt("best1",0) + ",Score" + PlayerPrefs.GetInt("bestl",0);
+        lastText.text= "Last:Length"+ PlayerPrefs.GetInt("lastl",0) + ",Score" + PlayerPrefs.GetInt("lasts",0);
+        bestText.text = "Best:Length" + PlayerPrefs.GetInt("bestl",0) + ",Score" + PlayerPrefs.GetInt("bests",0);
         
     }
 
