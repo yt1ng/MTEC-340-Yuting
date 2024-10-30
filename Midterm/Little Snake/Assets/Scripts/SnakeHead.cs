@@ -5,6 +5,7 @@ using UnityEngine.Android;
 using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
 
+
 public class SnakeHead : MonoBehaviour
 {
     private Rigidbody2D sankeRigid;
