@@ -28,17 +28,20 @@ public class GunInventory : MonoBehaviour {
 		StartCoroutine("UpdateIconsFromResources");
 
 		StartCoroutine ("SpawnWeaponUponStart");//to start with a gun
-
+		
 		if (gunsIHave.Count == 0)
 			print ("No guns in the inventory");
+		
 	}
 
 	/*
 	*Waits some time then calls for a waepon spawn
 	*/
-	IEnumerator SpawnWeaponUponStart(){
+	IEnumerator SpawnWeaponUponStart()
+	{
 		yield return new WaitForSeconds (0.5f);
 		StartCoroutine("Spawn",0);
+		print("xie cheng 2 kai qi");
 	}
 
 	/* 
@@ -123,6 +126,9 @@ public class GunInventory : MonoBehaviour {
 	 * It will check if we carry a gun and destroy it, and its then going to load a gun prefab from our Resources Folder.
 	 */
 	IEnumerator Spawn(int _redniBroj){
+		
+		print ("xie cheng 3 kai qi");
+		
 		if (weaponChanging)
 			weaponChanging.Play ();
 		else
@@ -136,7 +142,12 @@ public class GunInventory : MonoBehaviour {
 				Destroy(currentGun);
 
 				GameObject resource = (GameObject) Resources.Load(gunsIHave[_redniBroj].ToString());
-				currentGun = (GameObject) Instantiate(resource, transform.position, /*gameObject.transform.rotation*/Quaternion.identity);
+				currentGun = (GameObject) Instantiate(
+					resource, 
+					transform.position, 
+					/*gameObject.transform.rotation*/Quaternion.identity,
+					GameObject.FindGameObjectWithTag("SecondCamera").transform
+				);
 				AssignHandsAnimator(currentGun);
 			}
 			else if(currentGun.name.Contains("Sword")){
@@ -149,13 +160,23 @@ public class GunInventory : MonoBehaviour {
 				Destroy(currentGun);
 
 				GameObject resource = (GameObject) Resources.Load(gunsIHave[_redniBroj].ToString());
-				currentGun = (GameObject) Instantiate(resource, transform.position, /*gameObject.transform.rotation*/Quaternion.identity);
+				currentGun = (GameObject) Instantiate(
+					resource, 
+					transform.position, 
+					/*gameObject.transform.rotation*/Quaternion.identity,
+					GameObject.FindGameObjectWithTag("SecondCamera").transform
+				);
 				AssignHandsAnimator(currentGun);
 			}
 		}
 		else{
 			GameObject resource = (GameObject) Resources.Load(gunsIHave[_redniBroj].ToString());
-			currentGun = (GameObject) Instantiate(resource, transform.position, /*gameObject.transform.rotation*/Quaternion.identity);
+			currentGun = (GameObject) Instantiate(
+				resource, 
+				transform.position, 
+				/*gameObject.transform.rotation*/Quaternion.identity,
+				GameObject.FindGameObjectWithTag("SecondCamera").transform
+				);
 
 			AssignHandsAnimator(currentGun);
 		}

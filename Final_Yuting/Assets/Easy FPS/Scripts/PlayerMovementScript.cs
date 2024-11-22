@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 [RequireComponent(typeof(Rigidbody))]
@@ -350,5 +351,27 @@ public class PlayerMovementScript : MonoBehaviour {
 	public AudioSource _walkSound;
 	[Tooltip("Run Sound player makes.")]
 	public AudioSource _runSound;
+
+
+	void OnCollisionEnter(Collision other)
+	{
+		print("Collision Enter");	
+		if (other.gameObject.tag == "enemy")
+		{
+			this.GetComponent<HealthBar>().Hurt(5);
+		}
+	}
+
+	void OnTriggerEnter(Collider other)
+	{
+		print("onTriggerEnter");	
+		if (other.tag == "enemy")
+		{
+			
+			this.GetComponent<HealthBar>().Hurt(5);
+		}
+	}
 }
+
+
 
