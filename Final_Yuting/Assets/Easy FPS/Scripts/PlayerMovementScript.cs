@@ -358,7 +358,7 @@ public class PlayerMovementScript : MonoBehaviour {
 		print("Collision Enter");	
 		if (other.gameObject.tag == "enemy")
 		{
-			this.GetComponent<HealthBar>().Hurt(5);
+			this.GetComponent<HealthBar>().Hurt(30);
 		}
 	}
 
